@@ -5,72 +5,87 @@ import java.util.List;
 
 public class ChainDTO {
 
-	private String projectName;
-	private String projectDescription;
-	private List<Integer> projectComponentsId;
-	private List<String> projectComponentsAtributes;
-	private List<String> projectComponentsDescriptions;
+	private int chainProjectId;
+	private String chainProjectName;
+	private String chainProjectDescription;
+	private List<Integer> chainProjectComponentsId;
+	private List<String> chainProjectComponentsAtributes;
+	private List<String> chainProjectComponentsDescriptions;
 
-	public ChainDTO(String projectName, String projectDescription,
-			List<Integer> projectComponentsId,
-			List<String> projectComponentsAtributes,
-			List<String> projectComponentsDescriptions) {
-		
-		this.projectName = projectName;
-		this.projectDescription = projectDescription;
-		this.projectComponentsId = projectComponentsId;
-		this.projectComponentsAtributes = projectComponentsAtributes;
-		this.projectComponentsDescriptions = projectComponentsDescriptions;
-	}
-	
-	public ChainDTO(String projectName, String projectDescription){	
-		this.projectName = projectName;
-		this.projectDescription = projectDescription;
-		this.projectComponentsId = new ArrayList<Integer>();
-		this.projectComponentsAtributes = new ArrayList<String>();
-		this.projectComponentsDescriptions = new ArrayList<String>();
+	public ChainDTO(int chainProjectId, String chainProjectName,
+			String chainProjectDescription,
+			List<Integer> chainProjectComponentsId,
+			List<String> chainProjectComponentsAtributes,
+			List<String> chainProjectComponentsDescriptions) {
+
+		this.chainProjectId = chainProjectId;
+		this.chainProjectName = chainProjectName;
+		this.chainProjectDescription = chainProjectDescription;
+		this.chainProjectComponentsId = chainProjectComponentsId;
+		this.chainProjectComponentsAtributes = chainProjectComponentsAtributes;
+		this.chainProjectComponentsDescriptions = chainProjectComponentsDescriptions;
 	}
 
-	public String getProjectName() {
-		return projectName;
+	public ChainDTO(int chainProjectId, String chainProjectName,
+			String chainProjectDescription) {
+
+		this.chainProjectId = chainProjectId;
+		this.chainProjectName = chainProjectName;
+		this.chainProjectDescription = chainProjectDescription;
+		this.chainProjectComponentsId = new ArrayList<Integer>();
+		this.chainProjectComponentsAtributes = new ArrayList<String>();
+		this.chainProjectComponentsDescriptions = new ArrayList<String>();
 	}
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
+	public int getChainProjectId() {
+		return chainProjectId;
 	}
 
-	public String getProjectDescription() {
-		return projectDescription;
+	public void setChainProjectId(int chainProjectId) {
+		this.chainProjectId = chainProjectId;
 	}
 
-	public void setProjectDescription(String projectDescription) {
-		this.projectDescription = projectDescription;
+	public String getChainProjectName() {
+		return chainProjectName;
 	}
 
-	public List<Integer> getProjectComponentsId() {
-		return projectComponentsId;
+	public void setChainProjectName(String chainProjectName) {
+		this.chainProjectName = chainProjectName;
 	}
 
-	public void setProjectComponentsId(List<Integer> projectComponentsId) {
-		this.projectComponentsId = projectComponentsId;
+	public String getChainProjectDescription() {
+		return chainProjectDescription;
 	}
 
-	public List<String> getProjectComponentsAtributes() {
-		return projectComponentsAtributes;
+	public void setChainProjectDescription(String chainProjectDescription) {
+		this.chainProjectDescription = chainProjectDescription;
 	}
 
-	public void setProjectComponentsAtributes(
-			List<String> projectComponentsAtributes) {
-		this.projectComponentsAtributes = projectComponentsAtributes;
+	public List<Integer> getChainProjectComponentsId() {
+		return chainProjectComponentsId;
 	}
 
-	public List<String> getProjectComponentsDescriptions() {
-		return projectComponentsDescriptions;
+	public void setChainProjectComponentsId(
+			List<Integer> chainProjectComponentsId) {
+		this.chainProjectComponentsId = chainProjectComponentsId;
 	}
 
-	public void setProjectComponentsDescriptions(
-			List<String> projectComponentsDescriptions) {
-		this.projectComponentsDescriptions = projectComponentsDescriptions;
+	public List<String> getChainProjectComponentsAtributes() {
+		return chainProjectComponentsAtributes;
+	}
+
+	public void setChainProjectComponentsAtributes(
+			List<String> chainProjectComponentsAtributes) {
+		this.chainProjectComponentsAtributes = chainProjectComponentsAtributes;
+	}
+
+	public List<String> getChainProjectComponentsDescriptions() {
+		return chainProjectComponentsDescriptions;
+	}
+
+	public void setChainProjectComponentsDescriptions(
+			List<String> chainProjectComponentsDescriptions) {
+		this.chainProjectComponentsDescriptions = chainProjectComponentsDescriptions;
 	}
 
 }

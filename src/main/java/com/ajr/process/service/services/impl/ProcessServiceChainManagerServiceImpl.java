@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.ajr.process.service.dao.ChainDAO;
 import com.ajr.process.service.dto.ChainComponentDTO;
 import com.ajr.process.service.dto.ChainDTO;
+import com.ajr.process.service.dto.ChainProjDTO;
+import com.ajr.process.service.dto.ChainProjIdDescDTO;
 import com.ajr.process.service.entity.ChainProjComponent;
 import com.ajr.process.service.entity.ChainProject;
 import com.ajr.process.service.services.ProcessServiceChainManagerService;
@@ -24,14 +26,14 @@ public class ProcessServiceChainManagerServiceImpl implements
 		return chainDAO;
 	}
 	
-	@Override
-	public void insertProject(String project, ChainDTO chainProject){
+	
+	public void insertProject(String project, ChainProjDTO chainProject){
 		
 		getChainDAO().insertProject(project, chainProject.getProjectName(), chainProject.getProjectDescription());
 
 	}
 
-	@Override
+	
 	public void insertProjectComponents(int projectId, List<ChainComponentDTO> components){
 		
 		for (ChainComponentDTO c: components){
@@ -40,7 +42,7 @@ public class ProcessServiceChainManagerServiceImpl implements
 		
 	}
 	
-	@Override
+	
 	public void updateProjectComponents(int projectId, List<ChainComponentDTO> components){
 		
 		getChainDAO().removeProjectComponents(projectId);
@@ -50,8 +52,46 @@ public class ProcessServiceChainManagerServiceImpl implements
 		}
 	}
 	
-	@Override
-	public List<ChainDTO> getChainProjectsList(String project) {
+	
+	public void updateSelectedProjectComponent(int projectId, int projChain, int component){
+		
+		getChainDAO().updateSelecedProjectComponent(projectId, projChain, component);
+		
+	}	
+	
+	
+	public List<ChainProjIdDescDTO> getChainProjectsList(String project) {
+
+		List<ChainProjIdDescDTO> result = new ArrayList<ChainProjIdDescDTO>();
+		
+		List<ChainProject> listProjects = getChainDAO().retrieveProjects(project);
+				
+		for (ChainProject l : listProjects) {
+			
+			ChainProjIdDescDTO obj = new ChainProjIdDescDTO(Integer.toString(l.getId()), l.getDescription());
+			
+			result.add(obj);
+
+		}
+		
+		return result;
+	}
+	
+	
+	public String getChainProjectSelected(String project) {
+		
+		StringBuffer cpSelected = new StringBuffer();
+		
+		cpSelected.append("{\"ChainProject\":\"");
+		cpSelected.append(getChainDAO().retrieveProjectSelected(project).getDescription());
+		cpSelected.append("\"}");
+
+		String result = cpSelected.toString();
+		
+		return result;
+	}
+
+	public List<ChainDTO> getChainProjectsDetail(String project) {
 
 		List<ChainDTO> result = new ArrayList<ChainDTO>();
 		List<ChainProject> listProjects = getChainDAO().retrieveProjects(project);
@@ -61,7 +101,7 @@ public class ProcessServiceChainManagerServiceImpl implements
 
 		for (ChainProject l : listProjects) {
 
-			ChainDTO newProcessServiceChain = new ChainDTO(l.getChainProject(),
+			ChainDTO newProcessServiceChain = new ChainDTO(l.getId(), l.getChainProject(),
 					l.getDescription(), projectComponentsId,
 					projectComponentsAtributes, projectComponentsDescriptions);
 
@@ -72,8 +112,21 @@ public class ProcessServiceChainManagerServiceImpl implements
 		return result;
 
 	}
+	
+	public String getChainProjectComponentSelected(String project) {
+		
+		StringBuffer cpSelected = new StringBuffer();
+		
+		cpSelected.append("{\"ChainProjectComponent\":\"");
+		cpSelected.append(getChainDAO().retrieveProjectComponentSelected(project).getDescription());
+		cpSelected.append("\"}");
 
-	@Override
+		String result = cpSelected.toString();
+		
+		return result;
+	}
+
+	
 	public ChainDTO getChainProjectById(int projectId) {
 
 		ChainProject project = getChainDAO().retrieveProject(projectId);
@@ -91,7 +144,7 @@ public class ProcessServiceChainManagerServiceImpl implements
 
 		}
 
-		ChainDTO result = new ChainDTO(project.getChainProject(),
+		ChainDTO result = new ChainDTO(projectId ,project.getChainProject(), 
 				project.getDescription(), projectComponentsId,
 				projectComponentsAtributes, projectComponentsDescriptions);
 		

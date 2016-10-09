@@ -1,20 +1,9 @@
 package com.ajr.process.service.dto;
 
-import java.util.List;
-
 public class ChainComponentDTO {
 
 	private String componentAttribute;
 	private String componentDescription;
-
-
-	public ChainComponentDTO(String componentAttribute, String componentDescription){
-		
-		this.componentAttribute = componentAttribute;
-		this.componentDescription = componentDescription;
-
-	}
-
 
 	public String getComponentAttribute() {
 		return componentAttribute;
