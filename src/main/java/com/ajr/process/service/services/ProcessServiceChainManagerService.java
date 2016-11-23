@@ -13,10 +13,10 @@ public interface ProcessServiceChainManagerService {
 	public void updateProjectComponents(int projectId, List<ChainComponentDTO> components);
 	public void updateSelectedProjectComponent(int projectId, int chainProj, int component);
 	public List<ChainProjectDTO> getChainProjectsList(String project);
-	public ChainProjectDTO getChainProjectSelected();
+	public ChainProjectDTO getSelectedChainProject(String project);
+	public ChainComponentDTO getSelectedComponentFromSelectedChainProject(String project);
 	public ChainDTO getChainProjectById(int projectId);
 	public ChainComponentDTO getChainProjectComponent(int projectId, int componentId);
 	public List<ChainComponentDTO> getComponentRelations(int projectId, int componentId);
-	public ChainComponentDTO getChainSelectedProjectComponent(String projectId);
 	
 }

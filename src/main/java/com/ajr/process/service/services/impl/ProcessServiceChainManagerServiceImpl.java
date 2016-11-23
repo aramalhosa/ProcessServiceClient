@@ -78,12 +78,12 @@ public class ProcessServiceChainManagerServiceImpl implements
 
 	}
 
-	public ChainProjectDTO getChainProjectSelected() {
+	public ChainProjectDTO getSelectedChainProject(String project) {
 		
 		String componentId = "";
 		String componentDesc = "";
 
-		ChainProject sqlSelect = getChainDAO().retrieveProjectSelected();
+		ChainProject sqlSelect = getChainDAO().retrieveProjectSelected(project);
 
 		Set<ChainProjComponent> components = sqlSelect.getChainProjComponents();
 		
@@ -152,9 +152,9 @@ public class ProcessServiceChainManagerServiceImpl implements
 		
 	}
 	
-	public ChainComponentDTO getChainSelectedProjectComponent(String project){
+	public ChainComponentDTO getSelectedComponentFromSelectedChainProject(String project){
 
-		ChainProjComponent component = getChainDAO().retrieveSelectedProjectComponent(project);
+		ChainProjComponent component = getChainDAO().retrieveSelectedComponentFromSelectedProject(project);
 		
 		ChainComponentDTO result = new ChainComponentDTO();
 		
