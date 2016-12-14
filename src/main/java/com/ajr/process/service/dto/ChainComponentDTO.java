@@ -1,13 +1,26 @@
 package com.ajr.process.service.dto;
 
-import java.util.List;
-
 public class ChainComponentDTO {
 
 	private String idComponent;	
 	private String componentAttribute;
 	private String componentDescription;
-	private List<ChainComponentDTO> componentRelations;
+	
+	public ChainComponentDTO(String idComponent, String componentAttribute, String componentDescription){
+		
+		this.idComponent = idComponent;
+		this.componentAttribute = componentAttribute;
+		this.componentDescription = componentDescription;
+		
+	}
+	
+	public ChainComponentDTO(){
+		
+		this.idComponent = "";
+		this.componentAttribute = "";
+		this.componentDescription = "";
+		
+	}	
 
 	public String getIdComponent() {
 		return idComponent;
@@ -37,16 +50,5 @@ public class ChainComponentDTO {
 	public void setComponentDescription(String componentDescription) {
 		this.componentDescription = componentDescription;
 	}
-
-
-	public List<ChainComponentDTO> getComponentRelations() {
-		return componentRelations;
-	}
-
-
-	public void setComponentRelations(List<ChainComponentDTO> componentRelations) {
-		this.componentRelations = componentRelations;
-	}
-
 
 }

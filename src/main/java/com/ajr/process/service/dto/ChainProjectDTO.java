@@ -7,13 +7,14 @@ public class ChainProjectDTO {
 	private String name;
 	private String description;
 	private String componentSelectedId;
-	private String componentSelectedDescription;
+	private String componentSelectedAtribute;
 	
-	public ChainProjectDTO(String id, String desc, String idComp, String compDesc) {
+	public ChainProjectDTO(String id, String name, String desc, String idComp, String compDesc) {
 		this.id = id;
+		this.name = name;
 		this.description = desc;
 		this.componentSelectedId = idComp;
-		this.componentSelectedDescription = compDesc;
+		this.componentSelectedAtribute = compDesc;
 	}
 	
 	public String getId() {
@@ -47,12 +48,12 @@ public class ChainProjectDTO {
 		this.componentSelectedId = componentSelectedId;
 	}
 
-	public String getcomponentSelectedDescription() {
-		return componentSelectedDescription;
+	public String getcomponentSelectedAtribute() {
+		return componentSelectedAtribute;
 	}
 
-	public void setcomponentSelectedDescription(String componentSelectedDescription) {
-		this.componentSelectedDescription = componentSelectedDescription;
+	public void setcomponentSelectedAtribute(String componentSelectedAtribute) {
+		this.componentSelectedAtribute = componentSelectedAtribute;
 	}
 
 }

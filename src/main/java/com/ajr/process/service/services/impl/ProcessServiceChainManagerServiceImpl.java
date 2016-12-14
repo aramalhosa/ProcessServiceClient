@@ -13,6 +13,7 @@ import com.ajr.process.service.dto.ChainDTO;
 import com.ajr.process.service.dto.ChainProjectDTO;
 import com.ajr.process.service.entity.ChainProjComponent;
 import com.ajr.process.service.entity.ChainProject;
+import com.ajr.process.service.entity.ComponentRelation;
 import com.ajr.process.service.services.ProcessServiceChainManagerService;
 
 @Service
@@ -45,13 +46,57 @@ public class ProcessServiceChainManagerServiceImpl implements
 		for (ChainProject l : listProjects) {
 
 			ChainProjectDTO obj = new ChainProjectDTO(Integer.toString(l
-					.getId()), l.getDescription(), empty, empty);
+					.getId()), l.getChainProject(), l.getDescription(), empty,
+					empty);
 
 			result.add(obj);
 
 		}
 
 		return result;
+	}
+
+	public List<ChainComponentDTO> getChainProjectComponentsList(int chainProj) {
+
+		List<ChainComponentDTO> result = new ArrayList<ChainComponentDTO>();
+
+		List<ChainProjComponent> listComponents = getChainDAO()
+				.retrieveChainProjectComponents(chainProj);
+
+		for (ChainProjComponent l : listComponents) {
+
+			ChainComponentDTO newProcessServiceChain = new ChainComponentDTO(
+					Integer.toString(l.getId()), l.getAttribute(), l.getDescription());
+
+			result.add(newProcessServiceChain);
+
+		}
+
+		return result;
+	}
+	
+	public List<ChainComponentDTO> getSelectedChainProjectComponentsList(String project){
+		
+		List<ChainComponentDTO> result = new ArrayList<ChainComponentDTO>();
+
+		ChainProjComponent selComponent = getChainDAO()
+				.retrieveSelectedComponentFromSelectedProject(project);
+		
+		List<ChainProjComponent> listComponents = getChainDAO()
+				.retrieveComponentRelations(selComponent.getChainProject().getId() , selComponent.getId());
+		
+
+		for (ChainProjComponent l : listComponents) {
+
+			ChainComponentDTO newProcessServiceChain = new ChainComponentDTO(
+					Integer.toString(l.getId()), l.getAttribute(), l.getDescription());
+
+			result.add(newProcessServiceChain);
+
+		}
+
+		return result;
+		
 	}
 
 	public List<ChainDTO> getChainProjectsDetail(String project) {
@@ -79,45 +124,46 @@ public class ProcessServiceChainManagerServiceImpl implements
 	}
 
 	public ChainProjectDTO getSelectedChainProject(String project) {
-		
-		String componentId = "";
-		String componentDesc = "";
 
-		ChainProject sqlSelect = getChainDAO().retrieveProjectSelected(project);
+		ChainProject chainProjectSel = getChainDAO().retrieveProjectSelected(
+				project);
 
-		Set<ChainProjComponent> components = sqlSelect.getChainProjComponents();
-		
-		for(ChainProjComponent c: components){
-			if (c.getSelected()=='1'){
-				componentId = Integer.toString(c.getId());
-				componentDesc = c.getDescription();
-			}
-		}
+		ChainProjComponent componentSel = getChainDAO()
+				.retrieveSelectedComponentFromSelectedProject(project);
 
 		ChainProjectDTO result = new ChainProjectDTO(
-				Integer.toString(sqlSelect.getId()),
-				sqlSelect.getDescription(),
-				componentId,
-				componentDesc);
+				Integer.toString(chainProjectSel.getId()),
+				chainProjectSel.getChainProject(),
+				chainProjectSel.getDescription(), Integer.toString(componentSel
+						.getId()), componentSel.getDescription());
 
 		return result;
 	}
-	
-	public List<ChainComponentDTO> getComponentRelations(int projectId, int componentId){
+
+	public List<ChainComponentDTO> getComponentRelations(int projectId,
+			int componentId) {
 		
-		ChainProject proj = getChainDAO().retrieveProject(projectId);
+		 List<ChainComponentDTO> result = new ArrayList<ChainComponentDTO>();
+
+		List<ChainProjComponent> listRel = getChainDAO().retrieveComponentRelations(projectId, componentId);
+
+		for (ChainProjComponent l : listRel) {
+
+			ChainComponentDTO newRelation = new ChainComponentDTO(Integer.toString(l.getId()), l.getAttribute(), l.getDescription());
+
+			result.add(newRelation);
+
+		}
 		
-		ChainProjComponent comp = getChainDAO().retrieveProjectComponent(projectId, componentId);
-		
-		//TODO Not full implemented! Need to be reviewed!
-		
+
 		return null;
 	}
 
 	public ChainDTO getChainProjectById(int projectId) {
 
 		ChainProject project = getChainDAO().retrieveProject(projectId);
-		Set<ChainProjComponent> projComponents = project.getChainProjComponents();
+		Set<ChainProjComponent> projComponents = project
+				.getChainProjComponents();
 		List<Integer> projectComponentsId = new ArrayList<Integer>();
 		List<String> projectComponentsAtributes = new ArrayList<String>();
 		List<String> projectComponentsDescriptions = new ArrayList<String>();
@@ -135,38 +181,40 @@ public class ProcessServiceChainManagerServiceImpl implements
 				projectComponentsAtributes, projectComponentsDescriptions);
 
 		return result;
-	}	
-	
-	public ChainComponentDTO getChainProjectComponent(int projectId, int componentId){
-		
-		ChainProjComponent component = getChainDAO().retrieveProjectComponent(projectId, componentId);
-		
-		ChainComponentDTO result = new ChainComponentDTO();
-		
-		result.setComponentAttribute(component.getAttribute());
-		result.setComponentDescription(component.getDescription());
-		result.setIdComponent(Integer.toString(component.getId()));		
-		result.setComponentRelations(null);
-		
-		return result;
-		
 	}
-	
-	public ChainComponentDTO getSelectedComponentFromSelectedChainProject(String project){
 
-		ChainProjComponent component = getChainDAO().retrieveSelectedComponentFromSelectedProject(project);
-		
+	public ChainComponentDTO getChainProjectComponent(int projectId,
+			int componentId) {
+
+		ChainProjComponent component = getChainDAO().retrieveProjectComponent(
+				projectId, componentId);
+
 		ChainComponentDTO result = new ChainComponentDTO();
-		
+
 		result.setComponentAttribute(component.getAttribute());
 		result.setComponentDescription(component.getDescription());
-		result.setIdComponent(Integer.toString(component.getId()));		
-		result.setComponentRelations(null);
-		
+		result.setIdComponent(Integer.toString(component.getId()));
+
 		return result;
-		
+
 	}
-	
+
+	public ChainComponentDTO getSelectedComponentFromSelectedChainProject(
+			String project) {
+
+		ChainProjComponent component = getChainDAO()
+				.retrieveSelectedComponentFromSelectedProject(project);
+
+		ChainComponentDTO result = new ChainComponentDTO();
+
+		result.setComponentAttribute(component.getAttribute());
+		result.setComponentDescription(component.getDescription());
+		result.setIdComponent(Integer.toString(component.getId()));
+
+		return result;
+
+	}
+
 	public void insertProjectComponents(int projectId,
 			List<ChainComponentDTO> components) {
 
@@ -195,7 +243,5 @@ public class ProcessServiceChainManagerServiceImpl implements
 				component);
 
 	}
-
-
 
 }
