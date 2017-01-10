@@ -66,7 +66,8 @@ public class ProcessServiceChainManagerServiceImpl implements
 		for (ChainProjComponent l : listComponents) {
 
 			ChainComponentDTO newProcessServiceChain = new ChainComponentDTO(
-					Integer.toString(l.getId()), l.getAttribute(), l.getDescription());
+					Integer.toString(l.getId()), l.getAttribute(),
+					l.getDescription());
 
 			result.add(newProcessServiceChain);
 
@@ -74,29 +75,31 @@ public class ProcessServiceChainManagerServiceImpl implements
 
 		return result;
 	}
-	
-	public List<ChainComponentDTO> getSelectedChainProjectComponentsList(String project){
-		
+
+	public List<ChainComponentDTO> getSelectedChainProjectComponentsList(
+			String project) {
+
 		List<ChainComponentDTO> result = new ArrayList<ChainComponentDTO>();
 
 		ChainProjComponent selComponent = getChainDAO()
 				.retrieveSelectedComponentFromSelectedProject(project);
-		
-		List<ChainProjComponent> listComponents = getChainDAO()
-				.retrieveComponentRelations(selComponent.getChainProject().getId() , selComponent.getId());
-		
 
-		for (ChainProjComponent l : listComponents) {
+		List<ComponentRelation> listComponents = getChainDAO()
+				.retrieveComponentRelations(selComponent.getId());
+
+		for (ComponentRelation l : listComponents) {
 
 			ChainComponentDTO newProcessServiceChain = new ChainComponentDTO(
-					Integer.toString(l.getId()), l.getAttribute(), l.getDescription());
+					Integer.toString(l.getChainProjectComponent2().getId()), l
+							.getChainProjectComponent2().getAttribute(), l
+							.getChainProjectComponent2().getDescription());
 
 			result.add(newProcessServiceChain);
 
 		}
 
 		return result;
-		
+
 	}
 
 	public List<ChainDTO> getChainProjectsDetail(String project) {
@@ -140,21 +143,23 @@ public class ProcessServiceChainManagerServiceImpl implements
 		return result;
 	}
 
-	public List<ChainComponentDTO> getComponentRelations(int projectId,
-			int componentId) {
-		
-		 List<ChainComponentDTO> result = new ArrayList<ChainComponentDTO>();
+	public List<ChainComponentDTO> getComponentRelations(int componentId) {
 
-		List<ChainProjComponent> listRel = getChainDAO().retrieveComponentRelations(projectId, componentId);
+		List<ChainComponentDTO> result = new ArrayList<ChainComponentDTO>();
 
-		for (ChainProjComponent l : listRel) {
+		List<ComponentRelation> listRel = getChainDAO()
+				.retrieveComponentRelations(componentId);
 
-			ChainComponentDTO newRelation = new ChainComponentDTO(Integer.toString(l.getId()), l.getAttribute(), l.getDescription());
+		for (ComponentRelation l : listRel) {
+
+			ChainComponentDTO newRelation = new ChainComponentDTO(
+					Integer.toString(l.getChainProjectComponent2().getId()), l
+							.getChainProjectComponent2().getAttribute(), l
+							.getChainProjectComponent2().getDescription());
 
 			result.add(newRelation);
 
 		}
-		
 
 		return null;
 	}

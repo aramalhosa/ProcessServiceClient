@@ -19,6 +19,6 @@ public interface ProcessServiceChainManagerService {
 	public ChainComponentDTO getSelectedComponentFromSelectedChainProject(String project);
 	public ChainDTO getChainProjectById(int projectId);
 	public ChainComponentDTO getChainProjectComponent(int projectId, int componentId);
-	public List<ChainComponentDTO> getComponentRelations(int projectId, int componentId);
+	public List<ChainComponentDTO> getComponentRelations(int componentId);
 	
 }
