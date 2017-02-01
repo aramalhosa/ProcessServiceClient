@@ -5,13 +5,14 @@ import java.util.List;
 import com.ajr.process.service.dto.ChainComponentDTO;
 import com.ajr.process.service.dto.ChainDTO;
 import com.ajr.process.service.dto.ChainProjectDTO;
+import com.ajr.process.service.entity.ComponentRelation;
 
 public interface ProcessServiceChainManagerService {
 	
 	public void insertProject(String project, ChainProjectDTO chainProject);
 	public void insertProjectComponents(int projectId, List<ChainComponentDTO> components);
 	public void updateProjectComponents(int projectId, List<ChainComponentDTO> components);
-	public void updateSelectedProjectComponent(int projectId, int chainProj, int component);
+	public void updateSelectedProjectComponent(String project, int chainProj, int component);
 	public List<ChainProjectDTO> getChainProjectsList(String project);
 	public List<ChainComponentDTO> getChainProjectComponentsList(int chainProj);
 	public List<ChainComponentDTO> getSelectedChainProjectComponentsList(String project);
@@ -20,5 +21,6 @@ public interface ProcessServiceChainManagerService {
 	public ChainDTO getChainProjectById(int projectId);
 	public ChainComponentDTO getChainProjectComponent(int projectId, int componentId);
 	public List<ChainComponentDTO> getComponentRelations(int componentId);
+	public List<ComponentRelation> getRelations();
 	
 }
