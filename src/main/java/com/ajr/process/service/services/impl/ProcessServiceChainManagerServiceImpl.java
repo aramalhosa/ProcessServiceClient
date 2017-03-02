@@ -11,9 +11,10 @@ import com.ajr.process.service.dao.ChainDAO;
 import com.ajr.process.service.dto.ChainComponentDTO;
 import com.ajr.process.service.dto.ChainDTO;
 import com.ajr.process.service.dto.ChainProjectDTO;
+import com.ajr.process.service.dto.ChainRelationDTO;
 import com.ajr.process.service.entity.ChainProjComponent;
 import com.ajr.process.service.entity.ChainProject;
-import com.ajr.process.service.entity.ComponentRelation;
+import com.ajr.process.service.exceptions.AttributeAlreadyExistsException;
 import com.ajr.process.service.services.ProcessServiceChainManagerService;
 
 @Service
@@ -186,11 +187,10 @@ public class ProcessServiceChainManagerServiceImpl implements
 		return result;
 	}
 
-	public ChainComponentDTO getChainProjectComponent(int projectId,
-			int componentId) {
+	public ChainComponentDTO getChainProjectComponent(int componentId) {
 
-		ChainProjComponent component = getChainDAO().retrieveProjectComponent(
-				projectId, componentId);
+		ChainProjComponent component = getChainDAO().retrieveComponent(
+				componentId);
 
 		ChainComponentDTO result = new ChainComponentDTO();
 
@@ -218,21 +218,38 @@ public class ProcessServiceChainManagerServiceImpl implements
 
 	}
 
-	public List<ComponentRelation> getRelations() {
+	public List<ChainRelationDTO> getRelations(int componentId) {
 
-		List<ComponentRelation> result = getChainDAO().retrieveRelations();
+		List<ChainRelationDTO> result = new ArrayList<ChainRelationDTO>();
+
+		List<Object[]> listRel = getChainDAO().retrieveRelations(componentId);
+
+		for (Object[] l : listRel) {
+
+			ChainRelationDTO newRelation = new ChainRelationDTO(
+					Integer.toString((Integer) l[0]), (String) l[2],
+					(String) l[1]);
+
+			result.add(newRelation);
+
+		}
 
 		return result;
 
 	}
 
-	public void insertProjectComponents(int projectId,
-			List<ChainComponentDTO> components) {
+	public void insertProjectComponent(String project,
+			ChainComponentDTO component) throws AttributeAlreadyExistsException {
 
-		for (ChainComponentDTO c : components) {
-			getChainDAO().insertProjectComponent(projectId,
-					c.getComponentAttribute(), c.getComponentDescription());
-		}
+		getChainDAO().insertProjectComponent(project,
+				component.getComponentAttribute(),
+				component.getComponentDescription());
+
+	}
+
+	public void insertComponentsRelation(int compId1, int compId2) {
+
+		getChainDAO().insertComponentsRelation(compId1, compId2);
 
 	}
 
@@ -241,10 +258,10 @@ public class ProcessServiceChainManagerServiceImpl implements
 
 		getChainDAO().removeProjectComponents(projectId);
 
-		for (ChainComponentDTO c : components) {
-			getChainDAO().insertProjectComponent(projectId,
-					c.getComponentAttribute(), c.getComponentDescription());
-		}
+		// for (ChainComponentDTO c : components) {
+		// getChainDAO().insertProjectComponent(projectId,
+		// c.getComponentAttribute(), c.getComponentDescription());
+		// }
 	}
 
 	public void updateSelectedProjectComponent(String project, int projChain,
