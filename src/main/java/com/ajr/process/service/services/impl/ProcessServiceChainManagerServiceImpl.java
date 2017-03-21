@@ -143,26 +143,6 @@ public class ProcessServiceChainManagerServiceImpl implements
 		return result;
 	}
 
-	public List<ChainComponentDTO> getComponentRelations(int componentId) {
-
-		List<ChainComponentDTO> result = new ArrayList<ChainComponentDTO>();
-
-		List<Object[]> listRel = getChainDAO().retrieveComponentRelations(
-				componentId);
-
-		for (Object[] l : listRel) {
-
-			ChainComponentDTO newRelation = new ChainComponentDTO(
-					Integer.toString((Integer) l[0]), (String) l[2],
-					(String) l[1]);
-
-			result.add(newRelation);
-
-		}
-
-		return null;
-	}
-
 	public ChainDTO getChainProjectById(int projectId) {
 
 		ChainProject project = getChainDAO().retrieveProject(projectId);
@@ -218,6 +198,26 @@ public class ProcessServiceChainManagerServiceImpl implements
 
 	}
 
+	public List<ChainComponentDTO> getComponentRelations(int componentId) {
+
+		List<ChainComponentDTO> result = new ArrayList<ChainComponentDTO>();
+
+		List<Object[]> listRel = getChainDAO().retrieveComponentRelations(
+				componentId);
+
+		for (Object[] l : listRel) {
+
+			ChainComponentDTO newRelation = new ChainComponentDTO(
+					Integer.toString((Integer) l[0]), (String) l[2],
+					(String) l[1]);
+
+			result.add(newRelation);
+
+		}
+
+		return null;
+	}
+
 	public List<ChainRelationDTO> getRelations(int componentId) {
 
 		List<ChainRelationDTO> result = new ArrayList<ChainRelationDTO>();
@@ -228,9 +228,44 @@ public class ProcessServiceChainManagerServiceImpl implements
 
 			ChainRelationDTO newRelation = new ChainRelationDTO(
 					Integer.toString((Integer) l[0]), (String) l[2],
-					(String) l[1]);
+					(String) l[1], false);
 
 			result.add(newRelation);
+
+		}
+
+		return result;
+
+	}
+
+	public List<ChainRelationDTO> getNewRelations(int chainProj, int componentId) {
+
+		List<ChainRelationDTO> result = new ArrayList<ChainRelationDTO>();
+
+		List<Integer> relationsSelected = new ArrayList<Integer>();
+
+		List<ChainProjComponent> listComponents = getChainDAO()
+				.retrieveChainProjectComponents(chainProj);
+
+		List<Object[]> listRel = getChainDAO().retrieveRelations(componentId);
+
+		for (Object[] l : listRel) {
+			relationsSelected.add((Integer) l[0]);
+		}
+
+		for (ChainProjComponent l : listComponents) {
+
+			if (relationsSelected.contains(l.getId())) {
+				ChainRelationDTO newRelation = new ChainRelationDTO(
+						Integer.toString(l.getId()), l.getAttribute(),
+						l.getDescription(), true);
+				result.add(newRelation);
+			} else {
+				ChainRelationDTO newRelation = new ChainRelationDTO(
+						Integer.toString(l.getId()), l.getAttribute(),
+						l.getDescription(), false);
+				result.add(newRelation);
+			}
 
 		}
 
