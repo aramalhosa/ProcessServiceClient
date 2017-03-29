@@ -3,12 +3,14 @@ package com.ajr.process.service.dto;
 public class ChainComponentDTO {
 
 	private String idComponent;	
+	private int idChainProject;
 	private String componentAttribute;
 	private String componentDescription;
 	
-	public ChainComponentDTO(String idComponent, String componentAttribute, String componentDescription){
+	public ChainComponentDTO(String idComponent, int idChainProject, String componentAttribute, String componentDescription){
 		
 		this.idComponent = idComponent;
+		this.idChainProject = idChainProject;
 		this.componentAttribute = componentAttribute;
 		this.componentDescription = componentDescription;
 		
@@ -31,6 +33,14 @@ public class ChainComponentDTO {
 		this.idComponent = idComponent;
 	}
 
+
+	public int getIdChainProject() {
+		return idChainProject;
+	}
+
+	public void setIdChainProject(int idChainProject) {
+		this.idChainProject = idChainProject;
+	}
 
 	public String getComponentAttribute() {
 		return componentAttribute;
