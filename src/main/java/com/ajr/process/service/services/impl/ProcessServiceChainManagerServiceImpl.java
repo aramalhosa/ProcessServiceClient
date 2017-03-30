@@ -67,7 +67,7 @@ public class ProcessServiceChainManagerServiceImpl implements
 		for (ChainProjComponent l : listComponents) {
 
 			ChainComponentDTO newProcessServiceChain = new ChainComponentDTO(
-					Integer.toString(l.getId()), l.getChainProject().getId(), l.getAttribute(),
+					Integer.toString(l.getId()), chainProj, l.getAttribute(),
 					l.getDescription());
 
 			result.add(newProcessServiceChain);
@@ -91,8 +91,8 @@ public class ProcessServiceChainManagerServiceImpl implements
 		for (Object[] l : listComponents) {
 
 			ChainComponentDTO newProcessServiceChain = new ChainComponentDTO(
-					Integer.toString((Integer) l[0]), selComponent.getChainProject().getId(), (String) l[2],
-					(String) l[1]);
+					Integer.toString((Integer) l[0]), (Integer) l[1], (String) l[3],
+					(String) l[2]);
 
 			result.add(newProcessServiceChain);
 
