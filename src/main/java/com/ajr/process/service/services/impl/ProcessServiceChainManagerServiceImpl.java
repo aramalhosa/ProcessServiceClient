@@ -308,16 +308,9 @@ public class ProcessServiceChainManagerServiceImpl implements
 
 	}
 
-	public void updateComponentRelations(int componentId, List<ChainRelationDTO> relations){
-		
-		List<Integer> components = new ArrayList<Integer>();
-		
-		for (ChainRelationDTO r : relations) {
-		  components.add(Integer.valueOf(r.getIdComponent()));
-		}
-		
-		getChainDAO().updateComponentRelations(componentId, components);
-
+	public void updateComponentRelations(int componentId, List<Integer> relations){
+				
+		getChainDAO().updateComponentRelations(componentId, relations);
 		
 	}	
 }
