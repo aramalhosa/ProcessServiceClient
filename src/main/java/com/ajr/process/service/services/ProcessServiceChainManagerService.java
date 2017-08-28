@@ -16,6 +16,7 @@ public interface ProcessServiceChainManagerService {
 	public void updateProjectComponents(int projectId, List<ChainComponentDTO> components);
 	public void updateSelectedProjectComponent(String project, int chainProj, int component);
 	public void updateComponentRelations(int componentId, List<Integer> relations);	
+	public void removeProjectComponent(int componentId);
 	public List<ChainProjectDTO> getChainProjectsList(String project);
 	public List<ChainComponentDTO> getChainProjectComponentsList(int chainProj);
 	public List<ChainComponentDTO> getSelectedChainProjectComponentsList(String project);

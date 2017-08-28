@@ -91,8 +91,8 @@ public class ProcessServiceChainManagerServiceImpl implements
 		for (Object[] l : listComponents) {
 
 			ChainComponentDTO newProcessServiceChain = new ChainComponentDTO(
-					Integer.toString((Integer) l[0]), (Integer) l[1], (String) l[3],
-					(String) l[2]);
+					Integer.toString((Integer) l[0]), (Integer) l[1],
+					(String) l[3], (String) l[2]);
 
 			result.add(newProcessServiceChain);
 
@@ -209,8 +209,8 @@ public class ProcessServiceChainManagerServiceImpl implements
 		for (Object[] l : listRel) {
 
 			ChainComponentDTO newRelation = new ChainComponentDTO(
-					Integer.toString((Integer) l[0]), (Integer) l[1], (String) l[3],
-					(String) l[2]);
+					Integer.toString((Integer) l[0]), (Integer) l[1],
+					(String) l[3], (String) l[2]);
 
 			result.add(newRelation);
 
@@ -256,16 +256,18 @@ public class ProcessServiceChainManagerServiceImpl implements
 
 		for (ChainProjComponent l : listComponents) {
 
-			if (relationsSelected.contains(l.getId())) {
-				ChainRelationDTO newRelation = new ChainRelationDTO(
-						Integer.toString(l.getId()), l.getAttribute(),
-						l.getDescription(), true);
-				result.add(newRelation);
-			} else {
-				ChainRelationDTO newRelation = new ChainRelationDTO(
-						Integer.toString(l.getId()), l.getAttribute(),
-						l.getDescription(), false);
-				result.add(newRelation);
+			if (l.getId() != componentId) {
+				if (relationsSelected.contains(l.getId())) {
+					ChainRelationDTO newRelation = new ChainRelationDTO(
+							Integer.toString(l.getId()), l.getAttribute(),
+							l.getDescription(), true);
+					result.add(newRelation);
+				} else {
+					ChainRelationDTO newRelation = new ChainRelationDTO(
+							Integer.toString(l.getId()), l.getAttribute(),
+							l.getDescription(), false);
+					result.add(newRelation);
+				}
 			}
 
 		}
@@ -302,15 +304,17 @@ public class ProcessServiceChainManagerServiceImpl implements
 
 	public void updateSelectedProjectComponent(String project, int projChain,
 			int component) {
-
 		getChainDAO().updateSelecedProjectComponent(project, projChain,
 				component);
-
 	}
 
-	public void updateComponentRelations(int componentId, List<Integer> relations){
-				
+	public void updateComponentRelations(int componentId,
+			List<Integer> relations) {
 		getChainDAO().updateComponentRelations(componentId, relations);
-		
+	}
+	
+	public void removeProjectComponent(int componentId) {
+		getChainDAO().removeProjectComponent(componentId);
 	}	
+	
 }
